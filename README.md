@@ -90,7 +90,3 @@ A Next.js application for displaying a list of widgets and their details, built 
 ## Author
 
 Built by Tinsaye Simeneh as part for implementing a Single Widget Page with navigation from a Widget List Page.
-
-```
-
-```
