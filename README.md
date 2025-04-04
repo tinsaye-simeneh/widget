@@ -1,8 +1,3 @@
----
-
-## Updated `README.md`
-
-```
 A Next.js application for displaying a list of widgets and their details, built as part of a UI/UX challenge. The app features a `Widget List Page` (homepage) and a `Single Widget Page` (dynamic route `/widgets/[id]`), with navigation, state management, and responsive design. This project leverages the Next.js App Router (`src/app`) for modern routing and React Server Components.
 
 ## Table of Contents
