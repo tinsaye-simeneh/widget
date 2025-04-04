@@ -2,27 +2,16 @@
 
 import { useState } from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { Comment } from "../types/widget";
 
 export default function CommentsSection({
   comments,
   widgetId,
   addNewComment,
 }: {
-  comments: {
-    id: string;
-    author: string;
-    timestamp: string;
-    content: string;
-    likes: number;
-  }[];
+  comments: Comment[];
   widgetId: string;
-  addNewComment: (comment: {
-    id: string | null;
-    author: string | null;
-    timestamp: string | null;
-    content: string | null;
-    likes: number | string | null;
-  }) => void;
+  addNewComment: (comment: Comment) => void;
 }) {
   const [likedComments, setLikedComments] = useState<{
     [key: string]: boolean;
@@ -54,9 +43,10 @@ export default function CommentsSection({
     setIsPosting(true);
 
     try {
-      const newCommentData = {
+      const newCommentData: Comment = {
+        id: Date.now().toString(),
         author: "newUser",
-        timestamp: "Just now",
+        timestamp: new Date().toISOString(),
         content: newComment,
         likes: 0,
       };
@@ -75,8 +65,7 @@ export default function CommentsSection({
       );
 
       if (response.ok) {
-        const updatedWidget = await response.json();
-        addNewComment(updatedWidget.comments);
+        addNewComment(newCommentData);
         setNewComment("");
       } else {
         console.error("Failed to post comment");
