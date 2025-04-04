@@ -112,16 +112,18 @@ export default function SingleWidgetPage({
         <WidgetDetails widget={selectedWidget} />
 
         <div className="mt-10">
-          <h2 className="mb-2 text-xl font-semibold text-white">
+          <h2 className="mb-6 text-2xl font-semibold text-white">
             Example Output
           </h2>
-          <a
-            href="/example.pdf"
-            download
-            className="text-blue-400 underline hover:text-blue-300"
-          >
-            Marketing_Campaign.pdf
-          </a>
+          <div className="max-w-sm p-8 bg-gray-800 rounded-lg shadow-lg">
+            <a
+              href="/example.pdf"
+              download
+              className="block font-medium text-center text-blue-400 underline transition-colors duration-300 text-md hover:text-blue-300"
+            >
+              Download Marketing Campaign PDF
+            </a>
+          </div>
         </div>
 
         <CommentsSection />
