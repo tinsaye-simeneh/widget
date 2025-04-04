@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useWidgetStore } from "../store/widgetStore";
 import WidgetList from "../components/WidgetList";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { mockWidgets } from "../data/mockWidgets";
 
 export default function Home() {
   const { widgetList, setWidgetList } = useWidgetStore();
@@ -16,10 +15,25 @@ export default function Home() {
   const widgetsPerPage = 4;
 
   useEffect(() => {
-    setIsLoading(true);
-    setWidgetList(mockWidgets);
-    setFilteredWidgets(mockWidgets);
-    setIsLoading(false);
+    const fetchWidgets = async () => {
+      setIsLoading(true);
+
+      try {
+        const response = await fetch("/api/widgets");
+        if (!response.ok) {
+          throw new Error("Failed to fetch widgets");
+        }
+        const data = await response.json();
+        setWidgetList(data);
+        setFilteredWidgets(data);
+      } catch (error) {
+        console.error("Error fetching widgets:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWidgets();
   }, [setWidgetList]);
 
   useEffect(() => {
