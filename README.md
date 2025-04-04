@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
 
-## Getting Started
+## Updated `README.md`
 
-First, run the development server:
+```
+A Next.js application for displaying a list of widgets and their details, built as part of a UI/UX challenge. The app features a `Widget List Page` (homepage) and a `Single Widget Page` (dynamic route `/widgets/[id]`), with navigation, state management, and responsive design. This project leverages the Next.js App Router (`src/app`) for modern routing and React Server Components.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
+- [Development Notes](#development-notes)
+- [Testing](#testing)
+- [Potential Improvements](#potential-improvements)
+- [Author](#author)
+- [License](#license)
+
+## Features
+
+- **Widget List Page** (`/`): Displays a grid of widgets with a search bar for filtering.
+- **Single Widget Page** (`/widgets/[id]`): Shows detailed information about a selected widget, including a downloadable PDF example output and a comments section with a form to share thoughts.
+- Responsive design using Tailwind CSS, ensuring compatibility across mobile, tablet, and desktop devices.
+- State management with Zustand for handling widget data.
+- Custom styling with SCSS (e.g., `highlight` class for tags like "css", "cross-browser").
+- Client-side navigation using Next.js App Router.
+
+## Tech Stack
+
+- **Next.js** (v14.x, App Router)
+- **TypeScript** (for type safety)
+- **SCSS** (for custom styles)
+- **Tailwind CSS** (for utility-first styling)
+- **React** (v18.x)
+- **Zustand** (for state management)
+- **Git** (for version control)
+
+## Project Structure
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+my-widget-app/
+├── src/
+│ ├── app/
+│ │ ├── layout.tsx # Root layout for shared UI (e.g., Header)
+│ │ ├── page.tsx # Widget List Page (homepage)
+│ │ ├── widgets/[id]/page.tsx # Single Widget Page (dynamic route)
+│ │ └── globals.css # Global styles with Tailwind CSS
+│ ├── components/
+│ │ ├── WidgetCard.tsx # Reusable card for each widget
+│ │ ├── WidgetList.tsx # Grid layout for widget cards
+│ │ ├── WidgetDetails.tsx # Detailed view of a single widget
+│ │ ├── CommentsSection.tsx # Displays comments and replies
+│ │ ├── ShareThoughts.tsx # Form for users to add comments
+│ │ └── Header.tsx # Navigation header
+│ ├── store/
+│ │ └── widgetStore.ts # Zustand store for state management
+│ ├── styles/
+│ │ └── custom.scss # Custom SCSS styles (e.g., highlight class)
+│ ├── public/
+│ │ └── (for static assets like images or PDFs, if needed)
+├── README.md # Project documentation
+├── tailwind.config.js # Tailwind CSS configuration
+├── tsconfig.json # TypeScript configuration
+└── package.json # Project dependencies and scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+````
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup Instructions
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- **Node.js** (v18.x or later recommended)
+- **npm** (v9.x or later)
+- **Git**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clone the repository**:
+   ```bash
+   git clone <your-repo-url>
+   cd my-widget-app
+````
 
-## Deploy on Vercel
+2. **Install dependencies**:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:3000` in your browser to view the app.
+
+### Available Scripts
+
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the app for production.
+
+## Development Notes
+
+- **Next.js App Router**: The project uses the App Router (`src/app`) for routing, with `layout.tsx` defining the shared layout and `page.tsx` files for individual routes.
+- **Client Components**: Components using hooks or client-side features (e.g., `useEffect`, `useState`, Zustand) are marked with `'use client'` to opt into client-side rendering.
+- **State Management**: Zustand is used to manage the widget list and selected widget state, ensuring efficient updates across pages.
+- **Styling**:
+  - Tailwind CSS is used for responsive layouts and utility classes.
+  - SCSS is used for custom styles (e.g., the `highlight` class for tags like "css", "cross-browser").
+- **Data Fetching**: Currently uses mock data for widgets. Replace with a real API in production (e.g., `/api/widgets` for the list, `/api/widgets/[id]` for details).
+- **Navigation**: Uses `next/navigation` for client-side routing (e.g., `useRouter` for programmatic navigation).
+
+## Potential Improvements
+
+- **Pagination/Infinite Scrolling**: Add pagination or infinite scrolling to the Widget List Page to handle large datasets efficiently.
+- **Loading States**: Implement loading for better UX during data fetching.
+- **Accessibility**: Enhance accessibility with ARIA labels, keyboard navigation, and screen reader support.
+- **SEO**: Add metadata for each widget page to improve search engine indexing.
+
+## Author
+
+Built by Tinsaye Simeneh as part for implementing a Single Widget Page with navigation from a Widget List Page.
+
+```
+
+```

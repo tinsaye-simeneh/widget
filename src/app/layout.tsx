@@ -1,20 +1,24 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/custom.scss";
+import Header from "../components/Header";
 
 export const metadata: Metadata = {
-  title: "Wigdet",
-  description: "A simple widget for your website",
+  title: "Widget App",
+  description: "A Next.js app for displaying widgets and their details",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen bg-gray-900 text-white">
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
