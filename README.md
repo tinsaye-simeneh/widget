@@ -1,4 +1,8 @@
-A Next.js application for displaying a list of widgets and their details, built as part of a UI/UX challenge. The app features a `Widget List Page` (homepage) and a `Single Widget Page` (dynamic route `/widgets/[id]`), with navigation, state management, and responsive design. This project leverages the Next.js App Router (`src/app`) for modern routing and React Server Components.
+# Widget Viewer App
+
+A Next.js application for displaying a list of widgets and their details, built as part of a UI/UX challenge. The app features a `Widget List Page` (homepage) and a `Single Widget Page` (`/widgets/[id]`), complete with interactive comments, data fetching from a mock API, pagination, and responsive design. Built using the Next.js App Router (`src/app`) and React Server Components.
+
+---
 
 ## Table of Contents
 
@@ -9,75 +13,126 @@ A Next.js application for displaying a list of widgets and their details, built 
 - [Potential Improvements](#potential-improvements)
 - [Author](#author)
 
+---
+
 ## Features
 
-- **Widget List Page** (`/`): Displays a grid of widgets with a search bar for filtering.
-- **Single Widget Page** (`/widgets/[id]`): Shows detailed information about a selected widget, including a downloadable PDF example output and a comments section with a form to share thoughts.
-- Responsive design using Tailwind CSS, ensuring compatibility across mobile, tablet, and desktop devices.
-- State management with Zustand for handling widget data.
-- Custom styling with SCSS (e.g., `highlight` class for tags like "css", "cross-browser").
-- Client-side navigation using Next.js App Router.
+- **Widget List Page** (`/`)
+  - Displays a grid of widgets with a **search bar** and **pagination**.
+  - Widgets are fetched from a **mock API** simulating server data.
+  - Responsive card layout using Tailwind CSS.
+
+- **Single Widget Page** (`/widgets/[id]`)
+  - Shows detailed information for a selected widget.
+  - Includes a **comment section** with:
+    - Form for submitting comments
+    - Live interactivity with `useState`
+    - **Comments fetched from mock API**
+    - **Real-time addition of new comments**
+    - Basic like count and timestamp formatting
+
+- **Pagination Support**
+  - Widget list supports pagination for scalability with large datasets.
+
+- **Responsive UI**
+  - Mobile-first design using Tailwind CSS.
+  - Accessibility considerations for keyboard users and screen readers.
+
+- **State Management**
+  - Managed globally with Zustand for widget data across components.
+
+---
 
 ## Tech Stack
 
 - **Next.js** (v14.x, App Router)
 - **TypeScript** (for type safety)
-- **SCSS** (for custom styles)
-- **Tailwind CSS** (for utility-first styling)
-- **React** (v18.x)
-- **Zustand** (for state management)
+- **Tailwind CSS** (utility-first styling)
+- **SCSS** (custom styles)
+- **React 18** (concurrent rendering)
+- **Zustand** (lightweight global state)
+- **Mock API / MSW or local data** (for development)
 - **Git** (for version control)
+
+---
 
 ## Setup Instructions
 
 ### Prerequisites
 
-- **Node.js** (v18.x or later recommended)
+- **Node.js** (v18.x or later)
 - **npm** (v9.x or later)
 - **Git**
 
 ### Installation
 
-1. **Clone the repository**:
-   ```bash
-   git clone <your-repo-url>
-   cd my-widget-app
+```bash
+git clone https://github.com/tinsaye-simeneh/widget
+cd widget
+npm install
+```
 
-2. **Install dependencies**:
+### Run Locally
 
-   ```bash
-   npm install
-   ```
+```bash
+npm run dev
+```
 
-3. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
-   Open `http://localhost:3000` in your browser to view the app.
+Open `http://localhost:3000` in your browser to see the app in action.
 
 ### Available Scripts
 
-- `npm run dev`: Starts the development server.
-- `npm run build`: Builds the app for production.
+- `npm run dev` - Run development server
+- `npm run build` - Build for production
+---
 
 ## Development Notes
 
-- **Next.js App Router**: The project uses the App Router (`src/app`) for routing, with `layout.tsx` defining the shared layout and `page.tsx` files for individual routes.
-- **Client Components**: Components using hooks or client-side features (e.g., `useEffect`, `useState`, Zustand) are marked with `'use client'` to opt into client-side rendering.
-- **State Management**: Zustand is used to manage the widget list and selected widget state, ensuring efficient updates across pages.
+- **App Router**:
+  - Located in `src/app`, using modern file-based routing with layouts and loading states.
+  
+- **Client Components**:
+  - `use client` is added to all interactive components like comments and forms.
+
+- **State Management**:
+  - Zustand stores widget and pagination state, improving shared accessibility across components.
+
+- **Data Fetching**:
+  - Comments and widget data are fetched from **mock API endpoints**
+  - Easily replaceable with real APIs (e.g., Supabase, Firebase, or RESTful backends).
+
 - **Styling**:
-  - Tailwind CSS is used for responsive layouts and utility classes.
-  - SCSS is used for custom styles (e.g., the `highlight` class for tags like "css", "cross-browser").
-- **Data Fetching**: Currently uses mock data for widgets. Replace with a real API in production (e.g., `/api/widgets` for the list, `/api/widgets/[id]` for details).
-- **Navigation**: Uses `next/navigation` for client-side routing (e.g., `useRouter` for programmatic navigation).
+  - Tailwind CSS handles layout, spacing, typography.
+  - SCSS used for specific customizations like `.highlight` classes.
+
+- **Pagination Logic**:
+  - Pagination parameters managed via `useSearchParams()` and `router.push()`.
+
+- **Comment Section Logic**:
+  - Controlled form input using `useState`
+  - Comments added optimistically to UI
+  - Uses current timestamp and mock authors
+  - Likes are displayed but not interactive (optional future feature)
+
+---
 
 ## Potential Improvements
 
-- **Pagination/Infinite Scrolling**: Add pagination or infinite scrolling to the Widget List Page to handle large datasets efficiently.
-- **Loading States**: Implement loading for better UX during data fetching.
-- **Accessibility**: Enhance accessibility with ARIA labels, keyboard navigation, and screen reader support.
-- **SEO**: Add metadata for each widget page to improve search engine indexing.
+- ✅ **Pagination**: Already implemented on the widget list
+- ✅ **Comment Interactivity**: Add, display, and manage new comments in real time
+- ✅ **Mock API**: Use a local data file or MSW for mocking endpoints
+- 🌐 **i18n**: Add internationalization for multilingual support
+- 🔒 **Auth Integration**: Optional login to restrict comment posting
+- 🔍 **Search Improvements**: Add debounce, fuzzy matching
+- 📄 **PDF Generation**: Downloadable widget outputs or reports
+
+---
 
 ## Author
 
-Built by Tinsaye Simeneh as part for implementing a Single Widget Page with navigation from a Widget List Page.
+Built with 💻 by **Tinsaye Simeneh** as part of a UI/UX for implementing dynamic navigation, interactivity, and modern frontend techniques using Next.js App Router.
+
+---
+
+> Feel free to fork, clone, and build on top of this! Suggestions or contributions are welcome.
+```
