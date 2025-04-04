@@ -4,13 +4,10 @@ A Next.js application for displaying a list of widgets and their details, built 
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
 - [Development Notes](#development-notes)
-- [Testing](#testing)
 - [Potential Improvements](#potential-improvements)
 - [Author](#author)
-- [License](#license)
 
 ## Features
 
@@ -45,7 +42,6 @@ A Next.js application for displaying a list of widgets and their details, built 
    ```bash
    git clone <your-repo-url>
    cd my-widget-app
-````
 
 2. **Install dependencies**:
 
