@@ -6,14 +6,16 @@ import { useWidgetStore } from "../../../store/widgetStore";
 import WidgetDetails from "../../../components/WidgetDetails";
 import CommentsSection from "../../../components/CommentsSection";
 import ShareThoughts from "../../../components/ShareThoughts";
+import * as React from "react";
 
 export default function SingleWidgetPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
-  const { id } = params;
+  const unwrappedParams = React.use(params);
+  const { id } = unwrappedParams;
   const { selectedWidget, setSelectedWidget, widgetList } = useWidgetStore();
 
   useEffect(() => {
