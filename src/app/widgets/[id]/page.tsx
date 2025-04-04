@@ -8,6 +8,7 @@ import CommentsSection from "../../../components/CommentsSection";
 import ShareThoughts from "../../../components/ShareThoughts";
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function SingleWidgetPage({
   params,
@@ -30,7 +31,15 @@ export default function SingleWidgetPage({
 
   if (!selectedWidget) {
     return (
-      <div className="py-20 text-lg text-center text-gray-400">Loading...</div>
+      <div className="py-20 text-lg text-center text-gray-400">
+        Loading...
+        <Link
+          href="/"
+          className="block mt-10 text-blue-400 underline hover:text-blue-300"
+        >
+          Back to Widgets
+        </Link>
+      </div>
     );
   }
 
