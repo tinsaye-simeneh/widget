@@ -1,3 +1,5 @@
+import StarRating from "./StarRating";
+
 interface Widget {
   id: string;
   title: string;
@@ -12,23 +14,25 @@ interface WidgetDetailsProps {
 }
 
 export default function WidgetDetails({ widget }: WidgetDetailsProps) {
+  const formattedReviews = widget.reviews
+    ? widget.reviews.toLocaleString()
+    : "0";
+
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow">
-      <h1 data-testid="widget-title" className="text-2xl font-bold">
-        {widget.title}
-      </h1>
-      <div className="flex items-center my-2">
-        <span className="text-yellow-400">
-          {"★".repeat(Math.floor(widget.rating))}
-        </span>
-        <span className="ml-1 text-gray-400">{widget.rating}</span>
-        <span className="ml-2 text-gray-400">
-          ({widget.reviews.toLocaleString()} reviews)
+    <div className="p-6 bg-[#20292A] rounded-2xl shadow-md">
+      <h1 className="mb-3 text-2xl font-semibold text-white">{widget.title}</h1>
+      <div className="flex items-center mb-4">
+        <StarRating rating={widget.rating} size={20} />
+        <span className="ml-2 text-gray-300">{widget.rating}</span>
+        <span className="ml-3 text-sm text-gray-400">
+          ({formattedReviews} reviews)
         </span>
       </div>
-      <p className="text-gray-400">{widget.description}</p>
-      <p className="text-green-400 mt-2">💲 {widget.price}</p>
-      <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      <p className="mb-4 leading-relaxed text-gray-400">{widget.description}</p>
+      <p className="mb-4 text-lg font-medium text-green-400">
+        💲 {widget.price}
+      </p>
+      <button className="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
         Get Started
       </button>
     </div>
