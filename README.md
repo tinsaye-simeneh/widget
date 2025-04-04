@@ -135,4 +135,3 @@ Built with 💻 by **Tinsaye Simeneh** as part of a UI/UX for implementing dynam
 ---
 
 > Feel free to fork, clone, and build on top of this! Suggestions or contributions are welcome.
-```
