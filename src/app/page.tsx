@@ -4,35 +4,37 @@ import { useEffect, useState } from "react";
 import { useWidgetStore } from "../store/widgetStore";
 import WidgetList from "../components/WidgetList";
 import { FaSearch, FaTimes } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { widgetList, setWidgetList } = useWidgetStore();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredWidgets, setFilteredWidgets] = useState(widgetList);
+  const [filteredWidgets, setFilteredWidgets] = useState(widgetList || []);
   const [isLoading, setIsLoading] = useState(true);
-
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const widgetsPerPage = 4;
 
   useEffect(() => {
     const fetchWidgets = async () => {
-      setIsLoading(true);
-
       try {
-        const response = await fetch("/api/widgets");
-        if (!response.ok) {
-          throw new Error("Failed to fetch widgets");
-        }
+        const response = await fetch(
+          "https://67f04f7e2a80b06b8897881d.mockapi.io/api/widget"
+        );
         const data = await response.json();
-        setWidgetList(data);
-        setFilteredWidgets(data);
+        console.log(data);
+        if (Array.isArray(data)) {
+          setWidgetList(data);
+          setFilteredWidgets(data);
+        } else {
+          console.error("Error: The fetched data is not an array.");
+        }
       } catch (error) {
         console.error("Error fetching widgets:", error);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchWidgets();
   }, [setWidgetList]);
 
@@ -50,14 +52,19 @@ export default function Home() {
 
   const indexOfLastWidget = currentPage * widgetsPerPage;
   const indexOfFirstWidget = indexOfLastWidget - widgetsPerPage;
-  const currentWidgets = filteredWidgets.slice(
-    indexOfFirstWidget,
-    indexOfLastWidget
-  );
-  const totalPages = Math.ceil(filteredWidgets.length / widgetsPerPage);
+  const currentWidgets =
+    filteredWidgets?.length > 0
+      ? filteredWidgets.slice(indexOfFirstWidget, indexOfLastWidget)
+      : [];
+  const totalPages = Math.ceil(filteredWidgets?.length / widgetsPerPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+    router.refresh();
   };
 
   return (
@@ -118,10 +125,20 @@ export default function Home() {
             </div>
           </>
         ) : (
-          <div className="text-lg text-center text-gray-400">
-            No widgets found matching:{" "}
-            <span className="font-medium text-white">{searchTerm}</span>
-          </div>
+          <>
+            <div className="text-lg text-center text-gray-400">
+              No widgets found matching:{" "}
+              {searchTerm && (
+                <span className="font-medium text-white">{searchTerm}</span>
+              )}
+            </div>
+            <button
+              onClick={handleRefresh}
+              className="block mt-4 text-blue-400 underline hover:text-blue-300"
+            >
+              Refresh
+            </button>
+          </>
         )}
       </div>
     </main>
