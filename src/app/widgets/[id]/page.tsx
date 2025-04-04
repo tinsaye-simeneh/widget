@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { useWidgetStore } from "../../../store/widgetStore";
 import WidgetDetails from "../../../components/WidgetDetails";
 import CommentsSection from "../../../components/CommentsSection";
-import ShareThoughts from "../../../components/ShareThoughts";
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaShareAlt, FaBookmark } from "react-icons/fa";
+import { Widget, Comment } from "../../../types/widget";
 
 export default function SingleWidgetPage({
   params,
@@ -19,17 +19,35 @@ export default function SingleWidgetPage({
   const router = useRouter();
   const unwrappedParams = React.use(params);
   const { id } = unwrappedParams;
-  const { selectedWidget, setSelectedWidget, widgetList } = useWidgetStore();
 
+  const [isLoading, setIsLoading] = useState(true);
+  const { selectedWidget, setSelectedWidget, widgetList } = useWidgetStore();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (id && widgetList.length > 0) {
-      const widget = widgetList.find((w) => w.id === id);
-      if (widget) {
-        setSelectedWidget(widget);
+    const fetchWidgetData = async () => {
+      if (id && widgetList.length > 0) {
+        const widget = widgetList.find((w) => w.id === id);
+        if (widget) {
+          setSelectedWidget(widget);
+          setIsLoading(false);
+          return;
+        }
       }
-    }
+      try {
+        const response = await fetch(
+          `https://67f04f7e2a80b06b8897881d.mockapi.io/api/widget/${id}`
+        );
+        const data = await response.json();
+        setSelectedWidget(data);
+      } catch (error) {
+        console.error("Error fetching widget data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWidgetData();
   }, [id, widgetList, setSelectedWidget]);
 
   useEffect(() => {
@@ -39,7 +57,17 @@ export default function SingleWidgetPage({
     }
   }, [toastMessage]);
 
-  if (!selectedWidget) {
+  const handleNewComment = (comment: Comment) => {
+    setSelectedWidget((prev: Widget | null) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        comments: prev.comments ? [...prev.comments, comment] : [comment],
+      };
+    });
+  };
+
+  if (isLoading) {
     return (
       <div className="py-20 text-lg text-center text-gray-400">
         Loading...
@@ -52,6 +80,22 @@ export default function SingleWidgetPage({
       </div>
     );
   }
+
+  if (!selectedWidget) {
+    return (
+      <div className="py-20 text-lg text-center text-gray-400">
+        Widget not found.
+        <Link
+          href="/"
+          className="block mt-10 text-blue-400 underline hover:text-blue-300"
+        >
+          Back to Widgets
+        </Link>
+      </div>
+    );
+  }
+
+  const comments = selectedWidget.comments || [];
 
   return (
     <main className="relative min-h-screen bg-[#141A1B] py-10">
@@ -94,40 +138,21 @@ export default function SingleWidgetPage({
             }}
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-500"
           >
-            <FaShareAlt />
-            Share
+            <FaShareAlt /> Share
           </button>
 
-          <button
-            onClick={() => {
-              setToastMessage("Widget saved!");
-            }}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded hover:bg-green-500"
-          >
-            <FaBookmark />
-            Save
+          <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded hover:bg-gray-500">
+            <FaBookmark /> Save
           </button>
         </div>
 
         <WidgetDetails widget={selectedWidget} />
 
-        <div className="mt-10">
-          <h2 className="mb-6 text-2xl font-semibold text-white">
-            Example Output
-          </h2>
-          <div className="max-w-sm p-8 bg-gray-800 rounded-lg shadow-lg">
-            <a
-              href="/example.pdf"
-              download
-              className="block font-medium text-center text-blue-400 underline transition-colors duration-300 text-md hover:text-blue-300"
-            >
-              Download Marketing Campaign PDF
-            </a>
-          </div>
-        </div>
-
-        <CommentsSection />
-        <ShareThoughts />
+        <CommentsSection
+          widgetId={id}
+          comments={comments}
+          addNewComment={handleNewComment}
+        />
       </div>
     </main>
   );

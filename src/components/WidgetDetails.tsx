@@ -14,6 +14,10 @@ interface WidgetDetailsProps {
 }
 
 export default function WidgetDetails({ widget }: WidgetDetailsProps) {
+  const formattedReviews = widget.reviews
+    ? widget.reviews.toLocaleString()
+    : "0";
+
   return (
     <div className="p-6 bg-[#20292A] rounded-2xl shadow-md">
       <h1 className="mb-3 text-2xl font-semibold text-white">{widget.title}</h1>
@@ -21,7 +25,7 @@ export default function WidgetDetails({ widget }: WidgetDetailsProps) {
         <StarRating rating={widget.rating} size={20} />
         <span className="ml-2 text-gray-300">{widget.rating}</span>
         <span className="ml-3 text-sm text-gray-400">
-          ({widget.reviews.toLocaleString()} reviews)
+          ({formattedReviews} reviews)
         </span>
       </div>
       <p className="mb-4 leading-relaxed text-gray-400">{widget.description}</p>

@@ -1,19 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { useWidgetStore } from "../store/widgetStore";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
-export default function CommentsSection() {
-  const { selectedWidget } = useWidgetStore();
-  const comments = selectedWidget?.comments || [];
-
+export default function CommentsSection({
+  comments,
+  widgetId,
+  addNewComment,
+}: {
+  comments: {
+    id: string;
+    author: string;
+    timestamp: string;
+    content: string;
+    likes: number;
+  }[];
+  widgetId: string;
+  addNewComment: (comment: {
+    id: string | null;
+    author: string | null;
+    timestamp: string | null;
+    content: string | null;
+    likes: number | string | null;
+  }) => void;
+}) {
   const [likedComments, setLikedComments] = useState<{
     [key: string]: boolean;
   }>({});
   const [dislikedComments, setDislikedComments] = useState<{
     [key: string]: boolean;
   }>({});
+  const [newComment, setNewComment] = useState<string>("");
+  const [isPosting, setIsPosting] = useState<boolean>(false);
 
   const handleLike = (commentId: string) => {
     setLikedComments((prev) => ({ ...prev, [commentId]: !prev[commentId] }));
@@ -29,11 +47,70 @@ export default function CommentsSection() {
     }
   };
 
+  const handlePostComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+
+    setIsPosting(true);
+
+    try {
+      const newCommentData = {
+        author: "newUser",
+        timestamp: "Just now",
+        content: newComment,
+        likes: 0,
+      };
+
+      const response = await fetch(
+        `https://67f04f7e2a80b06b8897881d.mockapi.io/api/widget/${widgetId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            comments: [...comments, newCommentData],
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedWidget = await response.json();
+        addNewComment(updatedWidget.comments);
+        setNewComment("");
+      } else {
+        console.error("Failed to post comment");
+      }
+    } catch (error) {
+      console.error("Error posting comment:", error);
+    } finally {
+      setIsPosting(false);
+    }
+  };
+
   return (
     <div className="mt-12">
       <h2 className="mb-4 text-xl font-semibold text-white">
         Share your thoughts
       </h2>
+
+      <form onSubmit={handlePostComment} className="mb-6">
+        <textarea
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Write your comment..."
+          rows={4}
+          className="w-full p-3 bg-[#1F2A2B] text-white rounded-lg focus:outline-none"
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 mt-2 text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+          disabled={isPosting}
+        >
+          {isPosting ? "Posting..." : "Post Comment"}
+        </button>
+      </form>
+
       {comments.length === 0 ? (
         <p className="text-gray-400">
           No comments yet. Be the first to share your thoughts!
