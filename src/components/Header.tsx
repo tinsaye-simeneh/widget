@@ -4,19 +4,28 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="bg-gray-800 p-4">
-      <nav className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold text-white">
+    <header className="py-4 bg-gray-800 shadow-md">
+      <nav className="container flex items-center justify-between px-4 mx-auto">
+        <Link href="/" className="text-2xl font-bold tracking-tight text-white">
           abyss
         </Link>
-        <div className="space-x-4">
-          <Link href="/" className="text-white hover:text-blue-500">
+        <div className="space-x-6">
+          <Link
+            href="/"
+            className="text-gray-300 transition-colors hover:text-blue-400"
+          >
             Widgets
           </Link>
-          <Link href="/requests" className="text-white hover:text-blue-500">
+          <Link
+            href="/requests"
+            className="text-gray-300 transition-colors hover:text-blue-400"
+          >
             Requests
           </Link>
-          <Link href="/create" className="text-white hover:text-blue-500">
+          <Link
+            href="/create"
+            className="text-gray-300 transition-colors hover:text-blue-400"
+          >
             Create
           </Link>
         </div>

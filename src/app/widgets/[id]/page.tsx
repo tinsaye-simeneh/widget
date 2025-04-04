@@ -28,30 +28,32 @@ export default function SingleWidgetPage({
   }, [id, widgetList, setSelectedWidget]);
 
   if (!selectedWidget) {
-    return <div>Loading...</div>;
+    return <div className="text-lg text-center text-gray-400">Loading...</div>;
   }
 
   return (
-    <main className="container mx-auto p-4">
-      <button
-        onClick={() => router.push("/")}
-        className="mb-4 text-blue-500 hover:underline"
-      >
-        ← Back to Widgets
-      </button>
-      <WidgetDetails widget={selectedWidget} />
-      <div className="mt-6">
-        <h2 className="text-xl font-bold mb-2">Example Output</h2>
-        <a
-          href="/example.pdf"
-          download
-          className="text-blue-500 hover:underline"
+    <main className="min-h-screen py-8 bg-gradient-to-b from-gray-900 to-gray-800">
+      <div className="container px-4 mx-auto">
+        <button
+          onClick={() => router.push("/")}
+          className="flex items-center mb-6 text-blue-400 transition-colors hover:text-blue-300"
         >
-          Marketing_Campaign.pdf
-        </a>
+          ← Back to Widgets
+        </button>
+        <WidgetDetails widget={selectedWidget} />
+        <div className="mt-8">
+          <h2 className="mb-2 text-xl font-bold text-white">Example Output</h2>
+          <a
+            href="/example.pdf"
+            download
+            className="text-blue-400 transition-colors hover:text-blue-300"
+          >
+            Marketing_Campaign.pdf
+          </a>
+        </div>
+        <CommentsSection />
+        <ShareThoughts />
       </div>
-      <CommentsSection />
-      <ShareThoughts />
     </main>
   );
 }
