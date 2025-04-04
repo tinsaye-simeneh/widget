@@ -68,27 +68,33 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen py-8 bg-gradient-to-b from-gray-900 to-gray-800">
-      <div className="container px-4 mx-auto">
-        <h1 className="relative inline-block mb-6 text-4xl font-extrabold text-white">
-          Explore Widgets
-          <span className="absolute left-0 w-1/2 h-1 bg-blue-500 rounded-full -bottom-1"></span>
-        </h1>
+    <main className="min-h-screen py-10 bg-gradient-to-b from-gray-900 to-gray-800">
+      <div className="px-4 mx-auto max-w-7xl">
+        <div className="mb-10 text-center">
+          <h1 className="relative inline-block text-3xl font-bold text-white sm:text-4xl">
+            Explore Widgets
+            <span className="block w-16 h-1 mx-auto mt-2 bg-blue-500 rounded-full" />
+          </h1>
+          <p className="mt-2 text-sm text-gray-400 sm:text-base">
+            Discover powerful tools and services tailored for your needs.
+          </p>
+        </div>
 
-        <div className="relative max-w-lg mx-auto mb-8">
-          <div className="flex items-center p-2 bg-gray-700 rounded-full shadow-lg">
-            <FaSearch className="ml-3 text-gray-400" />
+        {/* Search Input */}
+        <div className="relative max-w-xl mx-auto mb-12">
+          <div className="flex items-center px-4 py-2 bg-gray-700 rounded-full shadow-md">
+            <FaSearch className="text-gray-400" />
             <input
               type="text"
               placeholder="Search widgets..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 pl-4 text-white placeholder-gray-400 bg-transparent focus:outline-none"
+              className="flex-1 px-3 py-1 text-white placeholder-gray-400 bg-transparent focus:outline-none"
             />
             {searchTerm && (
               <button
                 onClick={handleClearSearch}
-                className="mr-3 text-gray-400 hover:text-white"
+                className="text-gray-400 hover:text-white"
               >
                 <FaTimes />
               </button>
@@ -104,7 +110,8 @@ export default function Home() {
           <WidgetList widgets={filteredWidgets} />
         ) : (
           <div className="text-lg text-center text-gray-400">
-            No widgets found matching for: {searchTerm}.
+            No widgets found matching:{" "}
+            <span className="font-medium text-white">{searchTerm}</span>
           </div>
         )}
       </div>
