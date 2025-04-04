@@ -36,36 +36,6 @@ A Next.js application for displaying a list of widgets and their details, built 
 - **Zustand** (for state management)
 - **Git** (for version control)
 
-## Project Structure
-```
-
-my-widget-app/
-├── src/
-│ ├── app/
-│ │ ├── layout.tsx # Root layout for shared UI (e.g., Header)
-│ │ ├── page.tsx # Widget List Page (homepage)
-│ │ ├── widgets/[id]/page.tsx # Single Widget Page (dynamic route)
-│ │ └── globals.css # Global styles with Tailwind CSS
-│ ├── components/
-│ │ ├── WidgetCard.tsx # Reusable card for each widget
-│ │ ├── WidgetList.tsx # Grid layout for widget cards
-│ │ ├── WidgetDetails.tsx # Detailed view of a single widget
-│ │ ├── CommentsSection.tsx # Displays comments and replies
-│ │ ├── ShareThoughts.tsx # Form for users to add comments
-│ │ └── Header.tsx # Navigation header
-│ ├── store/
-│ │ └── widgetStore.ts # Zustand store for state management
-│ ├── styles/
-│ │ └── custom.scss # Custom SCSS styles (e.g., highlight class)
-│ ├── public/
-│ │ └── (for static assets like images or PDFs, if needed)
-├── README.md # Project documentation
-├── tailwind.config.js # Tailwind CSS configuration
-├── tsconfig.json # TypeScript configuration
-└── package.json # Project dependencies and scripts
-
-````
-
 ## Setup Instructions
 
 ### Prerequisites
